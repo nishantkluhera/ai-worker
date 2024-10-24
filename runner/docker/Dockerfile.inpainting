@@ -1,0 +1,13 @@
+# runner/docker/Dockerfile.inpainting
+
+ARG BASE_IMAGE=livepeer/ai-runner:base
+FROM ${BASE_IMAGE}
+
+# Install additional requirements for inpainting
+RUN pip install --no-cache-dir torch==2.1.0 torchvision==0.16.0 transformers==4.35.2 accelerate==0.25.0
+
+# Set the default port to 8600
+ENV PORT=8600
+
+# Start the FastAPI server
+CMD ["uvicorn", "app.main:app", "--log-config", "app/cfg/uvicorn_logging_config.json", "--host", "0.0.0.0", "--port", "8600"]
